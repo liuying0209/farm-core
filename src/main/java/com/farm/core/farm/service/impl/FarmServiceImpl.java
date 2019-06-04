@@ -189,14 +189,17 @@ public class FarmServiceImpl implements FarmService {
                 Map<String, Object> map = new HashMap<>();
                 map.put("id", plot.getId());
                 map.put("name", plot.getName());
+                //种植农作物品种
                 List<Map<String, Object>> cropVe = this.plotCropMapper.findByPlotId(plot.getId());
                 if (CollectionUtils.isNotEmpty(cropVe)) {
                     cropVe = cropVe.stream().map(variety -> {
 
                         Long cropId = (Long) variety.get("id");
+                        //农作物相关信息对象
                         List<PlotCrop> plotCropList = this.plotCropMapper.findByPlotIdAndCropId(plot.getId(), cropId);
 
                         List<Map<String, Object>> cropVarietyFinalList = plotCropList.stream().map(plotCrop -> {
+                            //浓作物批次
                             String cropVariety = plotCrop.getCropVariety();
                             Long id = plotCrop.getId();
                             Map<String, Object> cropVarietyMap = new HashMap<>();

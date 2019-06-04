@@ -2,6 +2,7 @@ package com.farm.core.user.service;
 
 import com.dingtalk.api.response.OapiUserGetResponse;
 import com.farm.core.user.LoginVO;
+import com.farm.core.user.UserInfoWxDTO;
 import com.farm.core.user.exception.UserException;
 
 /**
@@ -21,6 +22,14 @@ public interface UserLoginService {
      */
 
     String ddLogin(OapiUserGetResponse oapiUserGetResponse) throws UserException;
+
+    /**
+     * 微信登入
+     * @param userInfoWxDTO
+     * @return
+     * @throws UserException
+     */
+    String wxLogin(UserInfoWxDTO userInfoWxDTO) throws UserException;
 
 
 

@@ -27,13 +27,12 @@ public class FarmController {
     private static final Logger LOGGER = LoggerFactory.getLogger(FarmController.class);
 
     @Autowired
-
     @SuppressWarnings("all")
     FarmService farmService;
 
     @PostMapping("add")
     @LoginCheck
-    public JsonResult saveFarm(CreateFarmVO params) throws FarmException {
+    public JsonResult saveFarm(@RequestBody CreateFarmVO params) throws FarmException {
         LOGGER.info("请求开始报告 : 创建农场 参数:{}", JSONObject.toJSONString(params));
         Long farmId = this.farmService.save(params);
         HashMap<String, Object> map = new HashMap<>();
@@ -65,8 +64,10 @@ public class FarmController {
                                      @RequestParam(value = "switchFlag", required = false) String switchFlag) throws FarmException {
         LOGGER.info("请求开始报告 : 获取三级联动菜单 参数:farmId:{},plotType:{},switchFlag:{}",farmId,plotType,switchFlag);
         List<Map<String, Object>> list = this.farmService.getLinkageMenu(farmId, plotType, switchFlag);
+        System.out.println(JsonResult.ok(list));
         return JsonResult.ok(list);
     }
+
 
 
     @PostMapping("updatePlot")
@@ -79,7 +80,7 @@ public class FarmController {
 
     @PostMapping("addCropVariety")
     @LoginCheck
-    public JsonResult addCropVariety(CreateCropVarietyVO params) throws FarmException {
+    public JsonResult addCropVariety(@RequestBody CreateCropVarietyVO params) throws FarmException {
         LOGGER.info("请求开始报告 : 地块添加农作物 参数 params:{}",params);
         Long plotCropId = this.farmService.addCropVariety(params);
         HashMap<String, Object> map = new HashMap<>();

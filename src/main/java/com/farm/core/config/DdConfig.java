@@ -32,6 +32,8 @@ public class DdConfig {
      */
     @Value("${dd.token}")
     private  String token;
+    @Value("${dd.suite_ticket}")
+    private String suiteTicket;
 
 
     public DdConfig() {
@@ -67,5 +69,13 @@ public class DdConfig {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getSuiteTicket() {
+        return suiteTicket;
+    }
+
+    public void setSuiteTicket(String suiteTicket) {
+        this.suiteTicket = suiteTicket;
     }
 }

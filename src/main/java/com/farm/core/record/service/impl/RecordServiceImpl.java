@@ -112,7 +112,8 @@ public class RecordServiceImpl implements RecordService {
         User user = UserUtils.getCurrent();
 
         //添加redis中保留的作物id
-        this.redisUtil.set(farmId.toString() + user.getId(), plotCropId);
+        String farmStr=farmId.toString();
+        this.redisUtil.set(farmStr + user.getId(), plotCropId.toString());
         //设置默认农场
         user.setDefaultFarmId(farmId);
         this.userMapper.update(user);

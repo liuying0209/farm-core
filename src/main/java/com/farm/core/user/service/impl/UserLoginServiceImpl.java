@@ -2,16 +2,21 @@ package com.farm.core.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dingtalk.api.response.OapiUserGetResponse;
+import com.farm.base.common.enums.SexEnum;
 import com.farm.base.user.User;
 import com.farm.core.constant.Constants;
 import com.farm.core.user.DdUser;
 import com.farm.core.user.LoginVO;
+import com.farm.core.user.UserInfo;
+import com.farm.core.user.UserInfoWxDTO;
 import com.farm.core.user.exception.UserException;
 import com.farm.core.user.mapper.DdUserMapper;
 import com.farm.core.user.mapper.UserMapper;
 import com.farm.core.user.service.UserLoginService;
 import com.farm.core.util.JWTUtil;
 import com.farm.core.util.RedisUtil;
+import com.farm.core.util.SecuritySHA1Utils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -116,6 +121,35 @@ public class UserLoginServiceImpl implements UserLoginService {
         return StringUtils.isNotBlank(token) ? token : "";
     }
 
+    @Override
+    public String wxLogin(UserInfoWxDTO userInfoWxDTO) throws UserException {
+       UserInfo userInfo= userInfoWxDTO.getUserInfo();;
+        User wxUser = this.userMapper.findById(userInfo.getUserId());
+
+        if (wxUser == null) {
+            //第一次登入
+            User user = new User();
+            user.setId(userInfo.getUserId());
+           // user.setEmail(email);
+            user.setSource("wx");
+            user.setPhoto(userInfo.getAvatarUrl());
+            user.setRealName(userInfo.getNickName());
+            user.setSex(SexEnum.valueOf(userInfo.getGender()));
+            user.setRegisterTime(new Date());
+            this.userMapper.insert(user);
+            LOGGER.info("保存wx用户信息成功");
+        }
+
+        wxUser = this.userMapper.findById(userInfo.getUserId());
+
+        String subject = jwtUtil.generalSubject(wxUser);
+        //获取token
+        String token = jwtUtil.createJWT(Constants.JWT_ID, subject, Constants.WEB_JWT_TTL);
+
+        //保存token
+        redisUtil.setForTimeMS(wxUser.getId(), token, Constants.WEB_JWT_TTL);
+        return StringUtils.isNotBlank(token) ? token : "";
+    }
     /**
      * 生成token
      *
