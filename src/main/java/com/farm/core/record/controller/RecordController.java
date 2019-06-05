@@ -61,7 +61,7 @@ public class RecordController {
 
     @PostMapping("appended")
     @LoginCheck
-    public JsonResult appended(AppendedVO params) throws BaseException {
+    public JsonResult appended(@RequestBody AppendedVO params) throws BaseException {
         LOGGER.info("请求开始报告: 追加农事环节接口 参数 params:{}", params);
         Long recordId = this.recordService.addAppendFarming(params);
         Map<String, Object> map = new HashMap<>();
@@ -80,7 +80,7 @@ public class RecordController {
 
     @PostMapping("add")
     @LoginCheck
-    public JsonResult saveFarmingRecord(FarmingRecordVO farmingRecordVO) throws BaseException, ParseException {
+    public JsonResult saveFarmingRecord(@RequestBody FarmingRecordVO farmingRecordVO) throws BaseException, ParseException {
         LOGGER.info("请求开始报告: 保存农事环节记录 参数:{}", JSONObject.toJSONString(farmingRecordVO));
         this.recordService.saveFarmingParams(farmingRecordVO);
         return JsonResult.ok();

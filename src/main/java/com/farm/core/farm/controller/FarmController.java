@@ -51,7 +51,7 @@ public class FarmController {
 
     @PostMapping("update")
     @LoginCheck
-    public JsonResult updateFarm(CreateFarmVO params) throws FarmException {
+    public JsonResult updateFarm(@RequestBody CreateFarmVO params) throws FarmException {
         LOGGER.info("请求开始报告 : 更新农场接口 参数 params:{}",params);
         this.farmService.updateFarm(params);
         return JsonResult.ok();
@@ -72,7 +72,7 @@ public class FarmController {
 
     @PostMapping("updatePlot")
     @LoginCheck
-    public JsonResult updatePlot(PlotVO params) throws FarmException {
+    public JsonResult updatePlot(@RequestBody PlotVO params) throws FarmException {
         LOGGER.info("请求开始报告 : 更新地块名称 参数 params: {}",params);
         this.farmService.updatePlot(params);
         return JsonResult.ok();
