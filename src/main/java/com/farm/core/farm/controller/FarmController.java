@@ -32,7 +32,18 @@ public class FarmController {
 
     @PostMapping("add")
     @LoginCheck
-    public JsonResult saveFarm(@RequestBody CreateFarmVO params) throws FarmException {
+    public JsonResult saveFarm(CreateFarmVO params) throws FarmException {
+        LOGGER.info("请求开始报告 : 创建农场 参数:{}", JSONObject.toJSONString(params));
+        Long farmId = this.farmService.save(params);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("farmId", farmId);
+        return JsonResult.ok(map);
+    }
+
+
+    @PostMapping("wxAdd")
+    @LoginCheck
+    public JsonResult saveWxFarm(@RequestBody CreateFarmVO params) throws FarmException {
         LOGGER.info("请求开始报告 : 创建农场 参数:{}", JSONObject.toJSONString(params));
         Long farmId = this.farmService.save(params);
         HashMap<String, Object> map = new HashMap<>();
@@ -78,9 +89,18 @@ public class FarmController {
         return JsonResult.ok();
     }
 
+    @PostMapping("updateWxPlot")
+    @LoginCheck
+    public JsonResult updateWxPlot(@RequestBody PlotVO params) throws FarmException {
+        LOGGER.info("请求开始报告 : 更新地块名称 参数 params: {}",params);
+        this.farmService.updatePlot(params);
+        return JsonResult.ok();
+    }
+
+
     @PostMapping("addCropVariety")
     @LoginCheck
-    public JsonResult addCropVariety(@RequestBody CreateCropVarietyVO params) throws FarmException {
+    public JsonResult addCropVariety(CreateCropVarietyVO params) throws FarmException {
         LOGGER.info("请求开始报告 : 地块添加农作物 参数 params:{}",params);
         Long plotCropId = this.farmService.addCropVariety(params);
         HashMap<String, Object> map = new HashMap<>();

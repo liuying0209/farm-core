@@ -61,6 +61,12 @@ dd:
   suite_secret: 6abSohyt6M_PjaVzEiY898ismSq8C9DT6TmyDSSQ5I1uLItr0flpGhwjAGH_xr7W
   encoding_aes_key: p05nsauxjee6jwqwyll7juyoa5pilxohoskspo1njsg
   token: kxfarmdindin
+  suite_ticket: suitr456957695
+
+wx:
+  appid: wx504fe41b69e81fb3
+  secret: 2df7f083c776f930b8c95b84151713aa
+  grant_type: authorization_code
 
 
 
