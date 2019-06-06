@@ -68,6 +68,14 @@ public class FarmController {
         return JsonResult.ok();
     }
 
+    @PostMapping("updateWx")
+    @LoginCheck
+    public JsonResult updateWxFarm(@RequestBody CreateFarmVO params) throws FarmException {
+        LOGGER.info("请求开始报告 : 更新农场接口 参数 params:{}",params);
+        this.farmService.updateFarm(params);
+        return JsonResult.ok();
+    }
+
     @GetMapping("menu")
     @LoginCheck
     public JsonResult getLinkageMenu(@RequestParam(value = "farmId") Long farmId,
