@@ -1,6 +1,7 @@
 log:
-  level: info
+  level: debug
   path: /log/kx-farm-core
+
 
 spring:
   datasource:

@@ -52,7 +52,7 @@ public class RecordController {
 
 
     @GetMapping("listRecordMenu/{plotCropId}")
-    @LoginCheck
+   @LoginCheck
     public JsonResult ListAllParentAndAddRecord(@PathVariable("plotCropId") Long plotCropId) {
         LOGGER.info("请求开始报告: 查询所有父类农事环节接口 参数 plotCropId : {}", plotCropId);
         List<AllParentRecordDTO> list = this.recordService.ListAllParentAndAddRecord(plotCropId);
@@ -61,7 +61,17 @@ public class RecordController {
 
     @PostMapping("appended")
     @LoginCheck
-    public JsonResult appended(@RequestBody AppendedVO params) throws BaseException {
+    public JsonResult appended(AppendedVO params) throws BaseException {
+        LOGGER.info("请求开始报告: 追加农事环节接口 参数 params:{}", params);
+        Long recordId = this.recordService.addAppendFarming(params);
+        Map<String, Object> map = new HashMap<>();
+        map.put("recordId", recordId);
+        return JsonResult.ok(map);
+    }
+
+    @PostMapping("appendedWx")
+    @LoginCheck
+    public JsonResult appendedWx(@RequestBody  AppendedVO params) throws BaseException {
         LOGGER.info("请求开始报告: 追加农事环节接口 参数 params:{}", params);
         Long recordId = this.recordService.addAppendFarming(params);
         Map<String, Object> map = new HashMap<>();
@@ -80,7 +90,14 @@ public class RecordController {
 
     @PostMapping("add")
     @LoginCheck
-    public JsonResult saveFarmingRecord(@RequestBody FarmingRecordVO farmingRecordVO) throws BaseException, ParseException {
+    public JsonResult saveFarmingRecord(FarmingRecordVO farmingRecordVO) throws BaseException, ParseException {
+        LOGGER.info("请求开始报告: 保存农事环节记录 参数:{}", JSONObject.toJSONString(farmingRecordVO));
+        this.recordService.saveFarmingParams(farmingRecordVO);
+        return JsonResult.ok();
+    }
+    @PostMapping("wxAdd")
+    @LoginCheck
+    public JsonResult saveWxFarmingRecord(@RequestBody FarmingRecordVO farmingRecordVO) throws BaseException, ParseException {
         LOGGER.info("请求开始报告: 保存农事环节记录 参数:{}", JSONObject.toJSONString(farmingRecordVO));
         this.recordService.saveFarmingParams(farmingRecordVO);
         return JsonResult.ok();

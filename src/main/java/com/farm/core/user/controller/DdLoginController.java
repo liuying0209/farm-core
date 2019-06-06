@@ -109,7 +109,7 @@ public class DdLoginController {
         //正式应用应该由钉钉通过开发者的回调地址动态获取到
         String suiteTicket = getSuiteTicket(ddConfig.getSuiteKey());
         //开发环境应用
-     //   String suiteTicket=ddConfig.getSuiteTicket();
+       // String suiteTicket=ddConfig.getSuiteTicket();
         String signature = DingTalkSignatureUtil.computeSignature(ddConfig.getSuiteSecret(), DingTalkSignatureUtil.getCanonicalStringForIsv(timestamp, suiteTicket));
         Map<String, String> params = new LinkedHashMap<String, String>();
         params.put("timestamp", String.valueOf(timestamp));
